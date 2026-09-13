@@ -33,7 +33,7 @@ window.CHAT_DATA = {
     { type: "msg", name: "TxwxNyaNya", text: "你这家伙啥都往外说啊，真实诚啊" },
 
     { type: "time", text: "16:12" },
-    { type: "msg", name: "夜Ya", text: "@日本鬼头 手难道不比杯子好用吗" },
+    { type: "msg", name: "夜Ya", text: "@本子魔法使 手难道不比杯子好用吗" },
   ],
 };
 
