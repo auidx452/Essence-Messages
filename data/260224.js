@@ -21,7 +21,7 @@ window.CHAT_DATA = {
   title: "2026-02-24 · 七条线",
   messages: [
     { type: "time", text: "2026年02月24日 14:00" },
-    { type: "msg", name: "本子魔法使", img: "images/260224.jpg" },
+    { type: "msg", name: "本子魔法使", img: "images/260224.png" },
     { type: "msg", name: "本子魔法使", text: "wdf" },
     { type: "msg", name: "本子魔法使", text: "打真结局前要先推七条线" },
     { type: "time", text: "14:01" },
