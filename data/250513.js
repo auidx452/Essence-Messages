@@ -15,7 +15,7 @@ window.CHAT_DATA = {
 
   messages: [
     { type: "time", text: "2025年05月13日 22:15" },
-    { type: "msg", name: "TxwxNyaNya", img: "images/250513-1.jpg" },
+    { type: "msg", name: "TxwxNyaNya", img: "images/250513.jpg" },
     { type: "msg", name: "TxwxNyaNya", text: "这两个字不会读谁能教我读" },
 
     { type: "time", text: "22:18" },
