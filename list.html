@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聊天记录存档 · 列表</title>
+  <style>
+    :root {
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --blue: #2563eb;
+      --orange: #f97316;
+      --hover: #f3f6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 24px 40px;
+      line-height: 1.7;
+      color: var(--text);
+      background: #fff;
+      font-size: 14.5px;
+    }
+    h1 { font-size: 26px; margin: 0 0 6px; }
+    h1 .dot { color: var(--orange); }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .subtitle { color: var(--muted); margin: 0; font-size: 14px; }
+    .view-switch a { color: var(--blue); text-decoration: none; font-size: 13.5px; }
+    .view-switch a:hover { text-decoration: underline; }
+
+    /* 文件管理器式列表 */
+    .list {
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .lrow {
+      display: grid;
+      grid-template-columns: 1fr 110px 90px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--text);
+    }
+    .lrow:last-child { border-bottom: none; }
+    .lrow.head {
+      background: #fafafa;
+      color: var(--muted);
+      font-size: 12.5px;
+      cursor: default;
+    }
+    a.lrow:not(.head):hover { background: var(--hover); }
+    .name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .lrow.head .name { font-weight: 400; }
+    .ficon {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cell { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .lrow.head .cell { font-size: 12.5px; }
+    .cell.num { text-align: right; padding-right: 8px; }
+    .lrow.head .cell.num { padding-right: 8px; }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1.5px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>聊天记录存档<span class="dot">.</span></h1>
+    <span class="view-switch"><a href="index.html">← 卡片视图</a></span>
+  </div>
+  <p class="subtitle">保存那些值得留着的对话</p>
+
+  <!-- ============ 列表视图：加新记录两步 ============
+       1. 在 data/ 下新建 YYMMDD.js（照抄现有文件格式）
+       2. 在下面复制一个 <a class="lrow"> 块，按时间顺序插到对应位置
+       提醒：标题/日期/条数在这里和 data 里的 title 各存一份，改动需同步
+  -->
+  <div class="list">
+    <div class="lrow head">
+      <span class="name">名称</span>
+      <span class="cell">日期</span>
+      <span class="cell num">消息</span>
+    </div>
+
+    <a class="lrow" href="chat.html?id=250410">
+      <span class="name"><span class="ficon" style="background:#5ad8a6">G</span>2025-04-10 · galgame推荐</span>
+      <span class="cell">2025-04-10</span>
+      <span class="cell num">18</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250513">
+      <span class="name"><span class="ficon" style="background:#f6bd16">晨</span>2025-05-13 · 晨勃</span>
+      <span class="cell">2025-05-13</span>
+      <span class="cell num">10</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250706">
+      <span class="name"><span class="ficon" style="background:#269a99">学</span>2025-07-06 · 学考</span>
+      <span class="cell">2025-07-06</span>
+      <span class="cell num">35</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250706-2">
+      <span class="name"><span class="ficon" style="background:#6dc8ec">W</span>2025-07-06 · say world</span>
+      <span class="cell">2025-07-06</span>
+      <span class="cell num">16</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250708">
+      <span class="name"><span class="ficon" style="background:#9270ca">早</span>2025-07-08 · 早安</span>
+      <span class="cell">2025-07-08</span>
+      <span class="cell num">1</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250807">
+      <span class="name"><span class="ficon" style="background:#ff9d4d">魔</span>2025-08-07 · 魔丸要爆了</span>
+      <span class="cell">2025-08-07</span>
+      <span class="cell num">13</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250808">
+      <span class="name"><span class="ficon" style="background:#5b8ff9">代</span>2025-08-08 · 代成绩图</span>
+      <span class="cell">2025-08-08</span>
+      <span class="cell num">1</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250828-1">
+      <span class="name"><span class="ficon" style="background:#a0d911">宙</span>2025-08-28 · 宇宙星神</span>
+      <span class="cell">2025-08-28</span>
+      <span class="cell num">16</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250828">
+      <span class="name"><span class="ficon" style="background:#269a99">姓</span>2025-08-28 · 百家姓</span>
+      <span class="cell">2025-08-28</span>
+      <span class="cell num">8</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250907">
+      <span class="name"><span class="ficon" style="background:#ff99c3">插</span>2025-09-07 · 别插了vv</span>
+      <span class="cell">2025-09-07</span>
+      <span class="cell num">17</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=250927">
+      <span class="name"><span class="ficon" style="background:#9270ca">发</span>2025-09-27 · 你是个几把</span>
+      <span class="cell">2025-09-27</span>
+      <span class="cell num">8</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=251116">
+      <span class="name"><span class="ficon" style="background:#5ad8a6">理</span>2025-11-16 · 公理</span>
+      <span class="cell">2025-11-16</span>
+      <span class="cell num">12</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=251116-2">
+      <span class="name"><span class="ficon" style="background:#f97316">茶</span>2025-11-16 · 抹茶冰淇淋</span>
+      <span class="cell">2025-11-16</span>
+      <span class="cell num">17</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=251212">
+      <span class="name"><span class="ficon" style="background:#269a99">筹</span>2025-12-12 · 水滴筹</span>
+      <span class="cell">2025-12-12</span>
+      <span class="cell num">8</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=260118">
+      <span class="name"><span class="ficon" style="background:#6dc8ec">袋</span>2026-01-18 · 装币</span>
+      <span class="cell">2026-01-18</span>
+      <span class="cell num">4</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=260209">
+      <span class="name"><span class="ficon" style="background:#e8684a">震</span>2026-02-09 · 地震了</span>
+      <span class="cell">2026-02-09</span>
+      <span class="cell num">9</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=260210">
+      <span class="name"><span class="ficon" style="background:#5b8ff9">存</span>2026-02-10 · 存图</span>
+      <span class="cell">2026-02-10</span>
+      <span class="cell num">1</span>
+    </a>
+
+    <a class="lrow" href="chat.html?id=260210-2">
+      <span class="name"><span class="ficon" style="background:#6dc8ec">存</span>2026-02-10 · 存图 2</span>
+      <span class="cell">2026-02-10</span>
+      <span class="cell num">1</span>
+    </a>
+  </div>
+
+  <footer>© 2026 Auidx</footer>
+</body>
+</html>
