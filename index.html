@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聊天记录存档</title>
+  <style>
+    :root {
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --blue: #2563eb;
+      --orange: #f97316;
+      --green: #22c55e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 64px 24px 40px;
+      line-height: 1.8;
+      color: var(--text);
+      background: #fff;
+    }
+    h1 { font-size: 30px; margin: 0 0 6px; }
+    h1 .dot { color: var(--orange); }
+    .subtitle { color: var(--muted); margin: 0 0 40px; font-size: 15px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    a.card {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 20px;
+      transition: border-color .15s, transform .15s;
+    }
+    a.card:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .card .avatar {
+      width: 42px; height: 42px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .card .name { font-weight: 700; font-size: 16px; }
+    .card .desc { color: var(--muted); font-size: 14px; margin-top: 2px; }
+    .card .meta { color: #9ca3af; font-size: 12.5px; margin-top: 10px; }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 16px;
+      border-top: 1.5px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>聊天记录存档<span class="dot">.</span></h1>
+  <p class="subtitle">保存那些值得留着的对话</p>
+
+  <!-- ============ 目录：每段聊天记录一张卡片 ============
+       加新记录三步：
+       1. 在 data/ 下新建 xxx.js（照抄 data/friends.js 的格式）
+       2. 在下面 <div class="grid"> 里复制一个 <a class="card"> 改内容
+       3. 链接写成 chat.html?id=xxx （xxx 就是文件名，不带 .js）
+  -->
+  <div class="grid">
+    <a class="card" href="chat.html?id=0209">
+      <div class="avatar" style="background:#e8684a">震</div>
+      <div class="name">2026-02-09 · 地震了</div>
+      <div class="desc">群聊记录</div>
+      <div class="meta">2026-02-09 · 9 条消息</div>
+    </a>
+    <!-- 复制上面这张卡片来加新记录，例如：
+    <a class="card" href="chat.html?id=family">
+      <div class="avatar" style="background:#22c55e">家</div>
+      <div class="name">家人群</div>
+      <div class="desc">说明一句话</div>
+      <div class="meta">时间 · 条数</div>
+    </a>
+    -->
+  </div>
+
+  <footer>© 2026 Auidx</footer>
+</body>
+</html>
