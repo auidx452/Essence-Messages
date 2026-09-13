@@ -25,8 +25,30 @@
     }
     h1 { font-size: 30px; margin: 0 0 6px; }
     h1 .dot { color: var(--orange); }
-    .subtitle { color: var(--muted); margin: 0 0 40px; font-size: 15px; }
+    .subtitle { color: var(--muted); margin: 0 0 28px; font-size: 15px; }
 
+    /* 视图切换按钮 */
+    .view-switch {
+      display: inline-flex;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .view-switch button {
+      border: none;
+      background: #fff;
+      color: var(--muted);
+      font-size: 14px;
+      font-family: inherit;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .view-switch button.active { background: var(--blue); color: #fff; }
+    .view-switch button:not(.active):hover { color: var(--blue); }
+
+    /* ===== 卡片视图 ===== */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -57,6 +79,52 @@
     .card .desc { color: var(--muted); font-size: 14px; margin-top: 2px; }
     .card .meta { color: #9ca3af; font-size: 12.5px; margin-top: 10px; }
 
+    /* ===== 列表视图 ===== */
+    .list {
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .lrow {
+      display: grid;
+      grid-template-columns: 1fr 110px 70px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 18px;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      transition: background .12s;
+    }
+    .lrow:last-child { border-bottom: none; }
+    a.lrow:hover { background: #f0f6ff; }
+    .lrow.head { color: var(--muted); font-size: 12.5px; padding: 9px 18px; background: #fafafa; }
+    .lrow.head:hover { background: #fafafa; }
+    .lrow .name {
+      font-size: 14.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .ficon {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cell { color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .lrow.head .cell { font-size: 12.5px; }
+    .cell.num { text-align: right; padding-right: 8px; }
+    .lrow.head .cell.num { padding-right: 8px; }
+
+    .hidden { display: none; }
+
     footer {
       margin-top: 56px;
       padding-top: 16px;
@@ -68,133 +136,89 @@
 </head>
 <body>
   <h1>聊天记录存档<span class="dot">.</span></h1>
-  <p class="subtitle">保存那些值得留着的对话 · <a href="list.html" style="color:#2563eb;text-decoration:none">切换到列表视图 →</a></p>
+  <p class="subtitle">保存那些值得留着的对话</p>
 
-  <!-- ============ 目录：每段聊天记录一张卡片 ============
-       加新记录两步：
-       1. 在 data/ 下新建 xxx.js（照抄 260209.js 的格式，文件名用 YYMMDD，如 260415.js）
-       2. 在下面 <div class="grid"> 里复制一个 <a class="card"> 改内容
-       注意：标题和条数是手写的，改了 data 里的 title 记得同步改这里
+  <div class="view-switch" id="viewSwitch">
+    <button id="btnCards" class="active" onclick="switchView('cards')">卡片视图</button>
+    <button id="btnList" onclick="switchView('list')">列表视图</button>
+  </div>
+
+  <!-- ============ 加新记录：在下面 RECORDS 数组里加一行即可 ============
+       卡片和列表两个视图会自动同步生成，只需维护这一处。
+       字段：id(=data文件名，YYMMDD) / icon(图标字) / color(图标底色)
+             title(显示标题) / desc(卡片副标题) / date(列表日期列) / count(消息条数)
   -->
-  <div class="grid">
-    <a class="card" href="chat.html?id=250410">
-      <div class="avatar" style="background:#5ad8a6">G</div>
-      <div class="name">2025-04-10 · galgame推荐</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-04-10 · 18 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250513">
-      <div class="avatar" style="background:#f6bd16">晨</div>
-      <div class="name">2025-05-13 · 晨勃</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-05-13 · 10 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250706">
-      <div class="avatar" style="background:#269a99">学</div>
-      <div class="name">2025-07-06 · 学考</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-07-06 · 35 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250706-2">
-      <div class="avatar" style="background:#6dc8ec">W</div>
-      <div class="name">2025-07-06 · say world</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-07-06 · 16 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250708">
-      <div class="avatar" style="background:#9270ca">早</div>
-      <div class="name">2025-07-08 · 早安</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-07-08 · 1 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250807">
-      <div class="avatar" style="background:#ff9d4d">魔</div>
-      <div class="name">2025-08-07 · 魔丸要爆了</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-08-07 · 13 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250808">
-      <div class="avatar" style="background:#5b8ff9">代</div>
-      <div class="name">2025-08-08 · 代成绩图</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-08-08 · 1 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250828-1">
-      <div class="avatar" style="background:#a0d911">宙</div>
-      <div class="name">2025-08-28 · 宇宙星神</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-08-28 · 16 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250828">
-      <div class="avatar" style="background:#269a99">姓</div>
-      <div class="name">2025-08-28 · 百家姓</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-08-28 · 8 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250907">
-      <div class="avatar" style="background:#ff99c3">插</div>
-      <div class="name">2025-09-07 · 别插了vv</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-09-07 · 17 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=250927">
-      <div class="avatar" style="background:#9270ca">发</div>
-      <div class="name">2025-09-27 · 你是个几把</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-09-27 · 8 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=251116">
-      <div class="avatar" style="background:#5ad8a6">理</div>
-      <div class="name">2025-11-16 · 公理</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-11-16 · 12 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=251116-2">
-      <div class="avatar" style="background:#f97316">茶</div>
-      <div class="name">2025-11-16 · 抹茶冰淇淋</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-11-16 · 17 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=251212">
-      <div class="avatar" style="background:#269a99">筹</div>
-      <div class="name">2025-12-12 · 水滴筹</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2025-12-12 · 8 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=260118">
-      <div class="avatar" style="background:#6dc8ec">袋</div>
-      <div class="name">2026-01-18 · 装币</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2026-01-18 · 4 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=260209">
-      <div class="avatar" style="background:#e8684a">震</div>
-      <div class="name">2026-02-09 · 地震了</div>
-      <div class="desc">群聊记录</div>
-      <div class="meta">2026-02-09 · 9 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=260210">
-      <div class="avatar" style="background:#5b8ff9">存</div>
-      <div class="name">2026-02-10 · 存图</div>
-      <div class="desc">图片记录</div>
-      <div class="meta">2026-02-10 · 1 条消息</div>
-    </a>
-    <a class="card" href="chat.html?id=260210-2">
-      <div class="avatar" style="background:#6dc8ec">存</div>
-      <div class="name">2026-02-10 · 存图 2</div>
-      <div class="desc">图片记录</div>
-      <div class="meta">2026-02-10 · 1 条消息</div>
-    </a>
-    <!-- 复制上面这张卡片来加新记录，例如：
-    <a class="card" href="chat.html?id=family">
-      <div class="avatar" style="background:#22c55e">家</div>
-      <div class="name">家人群</div>
-      <div class="desc">说明一句话</div>
-      <div class="meta">时间 · 条数</div>
-    </a>
-    -->
+  <div class="grid" id="grid"></div>
+  <div class="list hidden" id="list">
+    <div class="lrow head">
+      <span class="name">名称</span>
+      <span class="cell">日期</span>
+      <span class="cell num">消息</span>
+    </div>
   </div>
 
   <footer>© 2026 Auidx</footer>
+
+<script>
+/* ============ 记录清单：新记录在这里加一行（按时间正序） ============ */
+const RECORDS = [
+  { id: "250410",   icon: "G",  color: "#5ad8a6", title: "2025-04-10 · galgame推荐",   desc: "群聊记录", date: "2025-04-10", count: 18 },
+  { id: "250513",   icon: "晨", color: "#f6bd16", title: "2025-05-13 · 晨勃",          desc: "群聊记录", date: "2025-05-13", count: 10 },
+  { id: "250706",   icon: "学", color: "#269a99", title: "2025-07-06 · 学考",          desc: "群聊记录", date: "2025-07-06", count: 35 },
+  { id: "250706-2", icon: "W",  color: "#6dc8ec", title: "2025-07-06 · say world",     desc: "群聊记录", date: "2025-07-06", count: 16 },
+  { id: "250708",   icon: "早", color: "#9270ca", title: "2025-07-08 · 早安",          desc: "群聊记录", date: "2025-07-08", count: 1  },
+  { id: "250807",   icon: "魔", color: "#ff9d4d", title: "2025-08-07 · 魔丸要爆了",    desc: "群聊记录", date: "2025-08-07", count: 13 },
+  { id: "250808",   icon: "代", color: "#5b8ff9", title: "2025-08-08 · 代成绩图",      desc: "群聊记录", date: "2025-08-08", count: 1  },
+  { id: "250828-1", icon: "宙", color: "#a0d911", title: "2025-08-28 · 宇宙星神",      desc: "群聊记录", date: "2025-08-28", count: 16 },
+  { id: "250828",   icon: "姓", color: "#269a99", title: "2025-08-28 · 百家姓",        desc: "群聊记录", date: "2025-08-28", count: 8  },
+  { id: "250907",   icon: "插", color: "#ff99c3", title: "2025-09-07 · 别插了vv",      desc: "群聊记录", date: "2025-09-07", count: 17 },
+  { id: "250927",   icon: "发", color: "#9270ca", title: "2025-09-27 · 你是个几把",    desc: "群聊记录", date: "2025-09-27", count: 8  },
+  { id: "251116",   icon: "理", color: "#5ad8a6", title: "2025-11-16 · 公理",          desc: "群聊记录", date: "2025-11-16", count: 12 },
+  { id: "251116-2", icon: "茶", color: "#f97316", title: "2025-11-16 · 抹茶冰淇淋",    desc: "群聊记录", date: "2025-11-16", count: 17 },
+  { id: "251212",   icon: "筹", color: "#269a99", title: "2025-12-12 · 水滴筹",        desc: "群聊记录", date: "2025-12-12", count: 8  },
+  { id: "260118",   icon: "袋", color: "#6dc8ec", title: "2026-01-18 · 装币",          desc: "群聊记录", date: "2026-01-18", count: 4  },
+  { id: "260209",   icon: "震", color: "#e8684a", title: "2026-02-09 · 地震了",        desc: "群聊记录", date: "2026-02-09", count: 9  },
+  { id: "260210",   icon: "存", color: "#5b8ff9", title: "2026-02-10 · 存图",          desc: "图片记录", date: "2026-02-10", count: 1  },
+  { id: "260210-2", icon: "存", color: "#6dc8ec", title: "2026-02-10 · 存图 2",        desc: "图片记录", date: "2026-02-10", count: 1  },
+  { id: "260212",   icon: "红", color: "#f6bd16", title: "2026-02-12 · 大吉巴立",      desc: "群聊记录", date: "2026-02-12", count: 7  },
+  { id: "260216",   icon: "马", color: "#e8684a", title: "2026-02-16 · 马年大吉",      desc: "群聊记录", date: "2026-02-16", count: 7  },
+  { id: "260224",   icon: "线", color: "#9270ca", title: "2026-02-24 · 七条线",        desc: "群聊记录", date: "2026-02-24", count: 6  },
+  { id: "260515",   icon: "塔", color: "#269a99", title: "2026-05-15 · 全自动爬塔凌迟", desc: "群聊记录", date: "2026-05-15", count: 6  },
+  { id: "260608",   icon: "对", color: "#ff99c3", title: "2026-06-08 · 处对象",        desc: "群聊记录", date: "2026-06-08", count: 39 },
+  { id: "260913",   icon: "乐", color: "#5ad8a6", title: "2026-09-13 · 少女乐队",      desc: "群聊记录", date: "2026-09-13", count: 6  },
+];
+
+/* ============ 以下为渲染和切换逻辑，不用改 ============ */
+const grid = document.getElementById("grid");
+const list = document.getElementById("list");
+
+for (const r of RECORDS) {
+  const href = "chat.html?id=" + r.id;
+  grid.insertAdjacentHTML("beforeend", `
+    <a class="card" href="${href}">
+      <div class="avatar" style="background:${r.color}">${r.icon}</div>
+      <div class="name">${r.title}</div>
+      <div class="desc">${r.desc}</div>
+      <div class="meta">${r.date} · ${r.count} 条消息</div>
+    </a>`);
+  list.insertAdjacentHTML("beforeend", `
+    <a class="lrow" href="${href}">
+      <span class="name"><span class="ficon" style="background:${r.color}">${r.icon}</span>${r.title}</span>
+      <span class="cell">${r.date}</span>
+      <span class="cell num">${r.count}</span>
+    </a>`);
+}
+
+function switchView(v) {
+  const isList = v === "list";
+  grid.classList.toggle("hidden", isList);
+  list.classList.toggle("hidden", !isList);
+  document.getElementById("btnCards").classList.toggle("active", !isList);
+  document.getElementById("btnList").classList.toggle("active", isList);
+  history.replaceState(null, "", isList ? "#list" : "#");
+}
+// 支持 index.html#list 直接进入列表视图
+if (location.hash === "#list") switchView("list");
+</script>
 </body>
 </html>
